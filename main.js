@@ -1,7 +1,6 @@
     window.onload = async function() {
         // Fetch available languages and categories from the server
-        // const api = "https://jokes-api-backend-hvwd.onrender.com/api/v1/jokes/"
-        const api = "http://localhost:5000/api/v1/jokes/"
+        const api = "https://jokes-api-backend-hvwd.onrender.com/api/v1/jokes/"
         const cat = {"any": "Any", "neutral": "Neutral","chuck": "Chuck Norris"}
         const lang = {"any": "Any", "cs": "Czech", "de": "German", "en": "English", "es": "Spanish", "eu": "Basque", "fr": "French", "gl": "Galician", "hu":"Hungarian", "it": "Italian", "lt": "Lithuanian", "pl": "Polish", "sv": "Swedish"}
         const langs = document.getElementById('selLang');
