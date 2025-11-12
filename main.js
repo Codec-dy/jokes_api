@@ -1,7 +1,9 @@
     window.onload = async function() {
         // Fetch available languages and categories from the server
-        const api = "https://jokes-api-backend-hvwd.onrender.com/api/v1/jokes/"
+        // const api = "https://jokes-api-backend-hvwd.onrender.com/api/v1/jokes/"
+        const api = "http://localhost:5000/api/v1/jokes/"
         const cat = {"any": "Any", "neutral": "Neutral","chuck": "Chuck Norris"}
+        const lang = {"any": "Any", "cs": "Czech", "de": "German", "en": "English", "es": "Spanish", "eu": "Basque", "fr": "French", "gl": "Galician", "hu":"Hungarian", "it": "Italian", "lt": "Lithuanian", "pl": "Polish", "sv": "Swedish"}
         const langs = document.getElementById('selLang');
         const cats = document.getElementById('selCat');
         const nums = document.getElementById('selNum');
@@ -22,17 +24,14 @@
             nums.appendChild(option);
         }
 
-        await fetch(api + "languages")
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                for (const [key, value] of Object.entries(data.LANGUAGES)) {
-                    let option = document.createElement("option");
-                    option.value = key;
-                    option.text = value;
-                    langs.appendChild(option);
-                }
-            })
+    
+        for (const [key, value] of Object.entries(lang)) {
+            let option = document.createElement("option");
+            option.value = key;
+            option.text = value;
+            langs.appendChild(option);
+        }
+    
         
         amuseBtn.onclick = function(e) {
             e.preventDefault();
@@ -48,12 +47,18 @@
                 fetch(api + `${selectedJokeID}`).then(response => response.json())
                 .then(data => {
                         const article = document.createElement('article');
+                        article.id = selectedJokeID;
                         article.className = 'bg-gray-200 p-4 rounded-md text-black shadow-lg';
                         if("error" in data){
                             article.textContent = `404 Not Found: Joke ${selectedJokeID} not found, try an id between 0 and 952`;
                             jokesContainer.appendChild(article);
                         }else{
-                            article.textContent = data.joke.text;
+                             if (typeof(data.joke) === 'string') {
+                                article.textContent = data.joke;
+                             } else {
+                                article.textContent = data.joke.text;
+                             }
+                            
                             jokesContainer.appendChild(article);
                         }
                     });
